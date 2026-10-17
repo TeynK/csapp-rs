@@ -11,6 +11,9 @@
 - 식별자는 영어, 주석과 문서는 한국어
 
 ## 파일 배치
+- Day 폴더에는 `README.md`(명세와 기록), `check.sh`(완료 기준), `REVIEW.md`(리뷰 요지)를 둔다
+- 문서는 `docs/`에 둔다: `CURRICULUM.md`(커리큘럼 원본), `SYNTAX.md`, `PAPERS-ANSWERS.md`, `CHECKPOINTS.md`
+- 튜터 설정은 `CLAUDE.md`와 `.claude/`
 - 통합 테스트는 `tests/`, 테스트 입력 파일은 `tests/data/`
 - 측정 결과(작은 CSV·PNG)는 패키지의 `results/`에 두고 커밋
 - 1MB가 넘는 생성물(valgrind 트레이스, 큰 테스트 파일)은 `scratch/`에 둔다. 커밋되지 않는다
@@ -27,6 +30,7 @@
 - 브랜치는 `main` 하나
 
 ## 코드
+- 코드 원칙과 예시는 `PRINCIPLES.md`를 따른다
 - 커밋 전(WIP 제외): `cargo fmt` → `cargo clippy -q --workspace` 경고 0
 - 모든 `unsafe` 위에 `// SAFETY:` 주석 (clippy가 검사)
 - 사용자 입력이 닿는 경로에는 `unwrap()`·`expect()`를 쓰지 않는다. 테스트, 그리고 실패할 수 없는 게 자명한 곳만 허용

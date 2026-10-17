@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(//tmp/csapp-ref/**)"
+    ],
+    "deny": [
+      "Edit(**/*.rs)",
+      "Bash(git push *)"
+    ]
+  }
+}
