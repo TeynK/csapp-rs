@@ -38,31 +38,25 @@ $ xxd-lite -s 7 hello.txt
 
 ### 오류 처리 (잘못된 입력에 패닉 금지)
 - E1. 파일 인자가 없으면: 표준 에러에 사용법 한 줄, 종료 코드 1
-- E2. 파일을 못 읽으면: `xxd-lite: <파일>: <OS 오류 메시지>`, 종료 코드 1
+- E2. 파일을 못 읽으면: `xxd-lite: <파일>: <OS 오류 메시지>`, 종료 코드 1 (뒤에 ` (os error N)`이 붙어도 된다)
 - E3. `-s`·`-l` 값이 없거나 숫자가 아니면, 또는 모르는 옵션이면: 오류 메시지, 종료 코드 1
-  (진짜 xxd는 `-s abc`를 0으로 취급하지만 여기서는 오류)
+  (진짜 xxd는 `-s abc`를 0으로 취급하지만 여기서는 오류. usize를 넘는 수도 오류)
 
 ### 제약
 - std만 사용. 외부 크레이트와 unsafe는 쓰지 않는다
 - `std::fs::read`로 한 번에 읽어도 된다 (조금씩 읽기는 D16 RIO)
 - 정상 출력은 표준 출력, 오류는 표준 에러
 
-### 완료 기준 (저장소 루트에서)
+### 완료 기준
 ```sh
-cargo build -q -p xxd-lite && X=target/debug/xxd-lite
-head -c 1000 /dev/urandom > /tmp/rand.bin; : > /tmp/empty
-for f in /bin/ls Cargo.toml /tmp/rand.bin /tmp/empty; do
-  diff <(xxd "$f") <($X "$f") > /dev/null && echo "OK $f" || echo "FAIL $f"
-done
-diff <(xxd -s 16 -l 64 /bin/ls) <($X -s 16 -l 64 /bin/ls) && echo "OK -s -l"
-diff <(xxd -l 13 /bin/ls) <($X -l 13 /bin/ls) && echo "OK 덜 찬 줄"
-diff <(xxd -s 99999999 Cargo.toml) <($X -s 99999999 Cargo.toml) && echo "OK 끝 넘김"
-$X /없는/파일; echo "exit=$?"
-$X -s abc /bin/ls; echo "exit=$?"
-$X; echo "exit=$?"
+./days/d00-xxd-lite/check.sh
 ```
-- 모든 줄에 OK, 마지막 세 줄은 패닉 없이 메시지와 `exit=1`
-- FAIL이면 `diff <(xxd 파일) <($X 파일) | head`로 첫 차이 확인
+- 마지막 줄이 `FAIL 0`이고 종료 코드 0이면 완료
+- 정상 케이스는 xxd와 표준 출력·표준 에러·종료 코드를 모두 비교한다 (PRINCIPLES 6-2)
+- 경계값: 파일 길이 0·1·15·16·17·32, `-s`·`-l`에 0·1·n−1·n·n+1·아주 큰 값(usize::MAX 포함)
+- 오류 케이스는 종료 코드 1, 빈 표준 출력, 표준 에러 메시지, 패닉 없음을 본다. E2는 메시지 형식까지 본다
+- xxd와 다르게 정한 두 곳은 명세 기준으로 비교한다: 파일 뒤에 오는 옵션, LONG_MAX를 넘는 `-s`(xxd는 exit 4)
+- FAIL이면 그 아래 줄에 어느 쪽(stdout/stderr/종료 코드)이 다른지 나온다
 
 ### 범위 밖
 표준 입력, `-c`·`-g` 같은 다른 xxd 옵션, 음수 `-s`
@@ -80,4 +74,4 @@ $X; echo "exit=$?"
   1. 리눅스의 실행 파일은 ELF형식이고, 파일 맨 앞 4바이트가 매직 넘버다(.ELF)
   2. dump로 data를 보내고 함수가 종료되면 소유권이 사라짐. 그래서 len에서 오류. 고칠려면 참조자 이용해서 빌려주거나 복제해서 주기.
 - 배운 것:
-- 재미(1~5): · 막힌 시간(분): · 힌트 단계(0~3):
+- 재미(1~5): 3· 막힌 시간(분): 3시간? 시간 안재고 띄엄띄엄함· 힌트 단계(0~3): 0
