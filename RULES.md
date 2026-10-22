@@ -11,7 +11,8 @@
 - 식별자는 영어, 주석과 문서는 한국어
 
 ## 파일 배치
-- Day 폴더에는 `README.md`(명세와 기록), `check.sh`(완료 기준), `REVIEW.md`(리뷰 요지)를 둔다
+- Day 폴더에는 `README.md`(명세와 기록), `BRIEF.md`(그날 브리핑), `check.sh`(완료 기준), `REVIEW.md`(리뷰 요지)를 둔다
+- 그날 과제가 쓰는 CSAPP 개념 정리는 루트 `concepts/dNN-주제.md`에 둔다 (예: `concepts/d01-cache-organization.md`)
 - 문서는 `docs/`에 둔다: `CURRICULUM.md`(커리큘럼 원본), `SYNTAX.md`, `PAPERS-ANSWERS.md`, `CHECKPOINTS.md`
 - 튜터 설정은 `CLAUDE.md`와 `.claude/`
 - 통합 테스트는 `tests/`, 테스트 입력 파일은 `tests/data/`

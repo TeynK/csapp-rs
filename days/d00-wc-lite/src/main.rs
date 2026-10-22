@@ -47,7 +47,7 @@ fn main() -> ExitCode {
         Err(e) => {
             eprintln!("wc-lite: {e}");
             ExitCode::FAILURE
-        } 
+        }
     }
 }
 

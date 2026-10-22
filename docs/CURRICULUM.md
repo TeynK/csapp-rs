@@ -161,7 +161,8 @@ csapp-rs/
   Cargo.lock        # 루트에 하나, 커밋함
   README.md         # Day 인덱스
   templates/        # day-README.md: 명세 + 기록 양식
-  days/dNN-이름/    # 날마다 패키지 하나: cargo new days/dNN-이름 --name 이름
+  days/dNN-이름/    # 날마다 패키지 하나: cargo new days/dNN-이름 --name 이름 (README·BRIEF·check.sh·REVIEW)
+  concepts/         # dNN-주제.md: 그날 과제가 쓰는 CSAPP 개념 문서
   crates/sysx/      # 개인 시스템 라이브러리: fd, rio, proc, signal, mmap, net, sync
   crates/cachesim/  # 1주차 → 5주차 vmsim에서 재사용
   crates/elf/       # 2주차 → 9장 로딩 관찰에 재사용
