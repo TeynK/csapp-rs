@@ -169,18 +169,11 @@ fn parse_value<T: FromStr>(opt: &'static str, value: Option<OsString>) -> Result
 }
 
 fn parse_address(addr: &str) -> Result<u64, CliError> {
-    let ret: u64;
-    match addr.split_at_checked(2) {
-        Some(("0x" | "0X", rest)) => {
-            ret = u64::from_str_radix(rest, 16)
-                .map_err(|_| CliError::InvalidAddress(addr.to_owned()))?;
-        }
-        _ => {
-            ret = u64::from_str_radix(addr, 10)
-                .map_err(|_| CliError::InvalidAddress(addr.to_owned()))?;
-        }
-    }
-    Ok(ret)
+    let (digits, radix) = match addr.split_at_checked(2) {
+        Some(("0x" | "0X", rest)) => (rest, 16),
+        _ => (addr, 10),
+    };
+    u64::from_str_radix(digits, radix).map_err(|_| CliError::InvalidAddress(addr.to_owned()))
 }
 
 fn dump(addr: u64, geometry: &Geometry, out: &mut impl Write) -> io::Result<()> {

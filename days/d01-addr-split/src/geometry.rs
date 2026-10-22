@@ -25,7 +25,7 @@ fn slice_addr(addr: &mut u64, slice_bits: u32) -> u64 {
         Some(bits) => (bits - 1) & *addr,
         None => *addr,
     };
-    addr.checked_shr(slice_bits).unwrap_or_default();
+    *addr = addr.checked_shr(slice_bits).unwrap_or_default();
     field
 }
 
