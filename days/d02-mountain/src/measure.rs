@@ -37,8 +37,8 @@ mod tests {
 
     #[test]
     fn undivisible_stride() {
-        let v: Vec<u64> = vec![1, 2, 4, 8, 16, 32, 64, 128];
-        assert_eq!(read_stride(&v, 3), 0b001001001);
+        let v: Vec<u64> = vec![1, 2, 4, 8, 16, 32, 64];
+        assert_eq!(read_stride(&v, 3), 0b01001001);
     }
 
     #[test]
