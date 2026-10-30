@@ -1,4 +1,5 @@
 use core::fmt;
+use std::default;
 use std::error::Error;
 use std::ffi::OsString;
 use std::fs::File;
@@ -39,6 +40,7 @@ impl fmt::Display for CliError {
 
 impl std::error::Error for CliError {}
 
+#[derive(Default)]
 struct Summary {
     instr: u64,
     load: u64,
@@ -99,12 +101,12 @@ fn run() -> Result<(), Box<dyn Error>> {
 fn parse_path(args: impl Iterator<Item = OsString>) -> Result<PathBuf, CliError> {
     let mut path: Option<PathBuf> = None;
     for arg in args {
-        match arg.to_str() {
-            Some(s) if s.starts_with("-") => return Err(CliError::Usage),
-            Some(_) if path.is_none() => path = Some(PathBuf::from(arg)),
-            _ => return Err(CliError::Usage),
+        if arg.as_encoded_bytes().starts_with(b"-") || path.is_some() {
+            return Err(CliError::Usage);
         }
+        path = Some(PathBuf::from(arg));
     }
+
     let Some(path) = path else {
         return Err(CliError::Usage);
     };
@@ -116,14 +118,7 @@ fn summarize(path: &Path) -> Result<Summary, Box<dyn Error>> {
         path: path.to_owned(),
         error: e,
     })?);
-    let mut summary = Summary {
-        instr: 0,
-        load: 0,
-        store: 0,
-        modify: 0,
-        min: None,
-        max: None,
-    };
+    let mut summary = Summary::default();
     for (i, line) in reader.lines().enumerate() {
         let line = line.map_err(|e| CliError::Read {
             path: path.to_owned(),

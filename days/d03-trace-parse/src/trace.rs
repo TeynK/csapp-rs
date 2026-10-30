@@ -117,4 +117,9 @@ mod tests {
             }))
         );
     }
+    #[test]
+    fn empty_line() {
+        let line = "";
+        assert_eq!(parse_line(line), Ok(None));
+    }
 }
