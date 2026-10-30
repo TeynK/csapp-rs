@@ -1,5 +1,4 @@
 use core::fmt;
-use std::default;
 use std::error::Error;
 use std::ffi::OsString;
 use std::fs::File;
@@ -89,7 +88,6 @@ fn main() -> ExitCode {
 }
 
 fn run() -> Result<(), Box<dyn Error>> {
-    // 인자 받아서 파싱
     let path = parse_path(std::env::args_os().skip(1))?;
     let summary = summarize(&path)?;
     let mut out = BufWriter::new(io::stdout().lock());
