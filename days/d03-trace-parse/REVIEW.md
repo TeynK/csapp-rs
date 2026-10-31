@@ -1,5 +1,9 @@
 # D3 리뷰
 
+## 2026-10-30 · 반영 확인 (커밋 6e17c25, 160cc1a)
+- 필수 2개 해결: UTF-8이 아닌 경로(`caf\xe9.trace`)를 읽음(종료 코드 0), `-\xff`는 usage. 빈 줄 테스트 `empty_line` 추가. check.sh OK 55 · FAIL 0, `cargo test` 5개 통과, D3 clippy 0, `cargo fmt --check` 통과
+- 남은 선택: 기록의 `- 예측: - 예측:` 중복, 워크스페이스 clippy 경고 1(`d00-wc-lite/src/counts.rs:22`), 커밋 메시지 형식(`D3: 리뷰 반영 - …`)
+
 ## 2026-10-30 · 1차 (커밋 b1292cb)
 
 | 항목 | 평가 | 근거 |
