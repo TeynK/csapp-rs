@@ -1,4 +1,5 @@
 #[derive(Debug, PartialEq)]
+/// Cache 결과 구조체
 pub enum Outcome {
     ///태그가 세트에 있었을 때
     Hit,
@@ -8,6 +9,7 @@ pub enum Outcome {
     MissEvict { victim: u64 },
 }
 
+/// Cache Set 구조체
 pub struct CacheSet {
     //line_set: Vec<Line>,
     /// Vec와 Option으로 캐시의 LRU 순서 및 사용 여부를 표현
@@ -15,8 +17,9 @@ pub struct CacheSet {
 }
 
 impl CacheSet {
-    /// CacheSet 생성자, lines가 0인 경우는 이전에 처리해서 오류취급 안함.
+    /// CacheSet 생성자, lines가 0인 경우는 access가 패닉함.
     pub fn new(lines: usize) -> Self {
+        assert!(lines != 0);
         Self {
             lru_list: vec![None; lines],
         }
@@ -69,6 +72,7 @@ mod tests {
         for (x, o) in input.iter().zip(output) {
             assert_eq!(cache.access(*x), o);
             assert_eq!(cache.contains(*x), true);
+            assert!(cache.contains(*x));
         }
     }
     #[test]

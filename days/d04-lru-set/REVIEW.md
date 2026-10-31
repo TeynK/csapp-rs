@@ -1,5 +1,12 @@
 # D4 리뷰
 
+## 2026-10-31 · 반영 확인 (커밋 cb8adea)
+- check.sh OK 60 · FAIL 0, `cargo test` 3개 통과, 워크스페이스 clippy 0. 단, **`cargo fmt --check` 실패**: `main.rs:61`의 `ok_or_else(| | …)`(fmt 없이 커밋)
+- 필수 1 문서 주석: △. variant 셋과 `new`·`access`·`contains`에 `///`가 생김. `pub enum Outcome`과 `pub struct CacheSet` 자체에는 아직 없음(비공개 필드 `lru_list`의 주석은 `cargo doc`에 안 나온다). `new`의 "0은 오류 취급 안 함"은 사실과 다름: `new(0)`은 되지만 그 뒤 `access`가 `set.rs:36`에서 `removal index (is 0) should be < len (is 0)`으로 패닉(저장소 밖 크레이트에서 라이브러리를 불러 확인). 패닉한다고 적거나 `new`에서 `assert!`
+- 필수 2 테스트: 3(`only_cold_miss`)은 E = 4에 태그 4개로 고침. 2(`lru_hit`)는 그대로라 "`contains`는 순서를 바꾸지 않는다"를 아직 보지 않음
+- 원칙 반영: 5-1 `ok_or_else`, 3-1 `&[u64]`, 4-1 `simulate`·`line`, 4-2 `evictions`, 2-5 `expect` 메시지, `contains(&Some(tag))`, `for &tag` 모두 반영. 남은 것: `InvalidValue`(무엇의 값인지 안 드러남), `core::fmt` 혼용, 주석 처리된 `//line_set`, 테스트 3의 `assert_eq!(…, true)`와 `assert!` 중복
+- 규칙: 리뷰 반영이 별도 커밋 없이 본체 커밋에 들어감(RULES "리뷰 반영은 따로"). 루트 README는 아직 `진행 중`, 기록의 배운 것·숫자 세 개 비어 있음. BUGS.md 한 줄 추가(커밋 전)
+
 ## 2026-10-31 · 1차 (커밋 전, 작업 트리)
 
 | 항목 | 평가 | 근거 |

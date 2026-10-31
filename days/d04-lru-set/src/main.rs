@@ -58,7 +58,7 @@ fn parse_args(mut args: impl Iterator<Item = OsString>) -> Result<(usize, Vec<u6
     let tags: Vec<u64> = args
         .map(|a| {
             a.to_str()
-                .ok_or_else(| | CliError::InvalidTag(a.to_string_lossy().into_owned()))
+                .ok_or_else(|| CliError::InvalidTag(a.to_string_lossy().into_owned()))
                 .and_then(|s| {
                     s.parse::<u64>()
                         .map_err(|_| CliError::InvalidTag(s.to_owned()))
