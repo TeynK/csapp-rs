@@ -18,11 +18,9 @@ impl Counts {
             }
             match *b {
                 0x09..=0x0d | 0x20 => word_flag = false,
-                0x21..=0x7e => {
-                    if !word_flag {
-                        word_flag = true;
-                        words += 1;
-                    }
+                0x21..=0x7e if !word_flag => {
+                    word_flag = true;
+                    words += 1;
                 }
                 _ => (),
             }
