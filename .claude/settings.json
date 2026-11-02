@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(//tmp/csapp-ref/**)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(cargo fmt)",
+      "Bash(cargo fmt -p *)",
+      "Bash(cargo fmt --all *)",
+      "Bash(cargo clippy --fix *)",
+      "Bash(cargo fix *)"
+    ]
+  }
+}
